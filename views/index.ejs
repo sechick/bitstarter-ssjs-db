@@ -179,17 +179,22 @@
                 different in horizontal and vertical layouts, illustrating
                 media queries. -->
                 <div class="linediv-l">
-                <h3>1001</h3> <p>backers</p>
+<% var backers = orders.length; var bc_sum = 0; %>
+<% for(var i=0; i<orders.length; i++) {%>
+  <% bc_sum = bc_sum + orders[i].amount %>
+<% } %>
+<% bc_sum = Math.round(bc_sum*10000)/10000 %>
+                <h3><%= backers %></h3> <p>backers</p>
                 </div>
               </div>
               <div class="span4">
                 <div class="linediv-c">
-                  <h3>$6000</h3> <p>of $10,000</p>
+                  <h3><%= bc_sum %></h3> <p>of 1.0 BTC</p>
                 </div>
               </div>
               <div class="span4">
                 <div class="linediv-r">
-                <h3>10</h3> <p>days left</p>
+                <h3 id = "countdown">22</h3> <p>days left</p>
                 </div>
               </div>
             </div>
@@ -198,10 +203,10 @@
           <div class="span10 offset1">
             <!-- Bootstrap progress bar -->
             <!-- http://twitter.github.io/bootstrap/components.html#progress -->
-            <div class="thermometer progress active">
-              <div class="bar bar-success" style="width: 60%;"></div>
-              <div class="bar bar-warning" style="width: 40%;"></div>
-            </div>
+<div class="thermometer progress active">
+  <div class="bar bar-success" style="width: <%= (bc_sum / 1.0) * 100 %>%;"></div>
+  <div class="bar bar-warning" style="width: <%= 100 - (bc_sum / 1.0) * 100 %>%;"></div>
+</div>
           </div>
           </div>
           <div class="row-fluid">
@@ -373,5 +378,19 @@
   ga('send', 'pageview');
 
 </script>
+<script type="text/javascript">
+  jQuery(document).ready(function($) {
+      today = new Date();
+
+      BigDay = new Date("September 27, 2013");
+      msPerDay = 24 * 60 * 60 * 1000 ;
+      timeLeft = (BigDay.getTime() - today.getTime());
+      e_daysLeft = timeLeft / msPerDay;
+      daysLeft = Math.floor(10.0*e_daysLeft)/10.0;
+
+      $("#countdown").text(daysLeft);
+  });
+</script>
   </body>
 </html>
+
